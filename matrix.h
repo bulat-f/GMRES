@@ -35,6 +35,7 @@ namespace KFU
 			void swap_lines(int, int);
 
 			Matrix& operator=(const Matrix&);
+			Vector<type>& operator*(const Vector<type>&);
 			Vector<type>& operator[](int);
 		private:
 			Vector<Vector<type>> values;
@@ -105,6 +106,17 @@ namespace KFU
 	{
 		values = other.values;
 		return *this;
+	}
+
+	template <class type>
+	Vector<type>& Matrix<type>::operator*(const Vector<type>& multiplier) // Пока будем считать, что всегда задается вектор столбец
+	{
+		int m = rows(), n = columns();
+		Vector<type> *result = new Vector<type>(m);
+		for (int i = 0; i < m; i++)
+			for (int j = 0; j < n; j++)
+				(*result)[i] += values[i][j] * multiplier[j];
+		return *result;
 	}
 
 	template <class type>

@@ -11,3 +11,6 @@ main
 # vim temporary files
 ~*
 *.swp
+
+# template and backup files
+*.tmp
