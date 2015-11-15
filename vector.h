@@ -4,6 +4,7 @@
 #include <fstream>
 #include <iostream>
 #include <vector>
+#include <cmath>
 
 namespace KFU
 {
@@ -34,6 +35,9 @@ namespace KFU
 			int size() const;
 
 			bool empty() const;
+
+			double norm() const;
+			double sqr() const;
 
 			void resize(int);
 			void swap(int, int);
@@ -92,6 +96,26 @@ namespace KFU
 	bool Vector<type>::empty() const
 	{
 		return values.empty();
+	}
+
+	template <class type>
+	double Vector<type>::norm() const
+	{
+		double result(0);
+		for (int i = 0; i < size(); i++)
+			result += values[i] * values[i];
+
+		return sqrt(result);
+	}
+
+	template <class type>
+	double Vector<type>::sqr() const
+	{
+		double result(0);
+		for (int i = 0; i < size(); i++)
+			result += values[i] * values[i];
+
+		return result;
 	}
 
 	template <class type>

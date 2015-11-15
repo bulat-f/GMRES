@@ -1,5 +1,7 @@
 #include "linear_system.h"
 
+#include <cmath>
+
 namespace KFU
 {
 	LinearSystem::LinearSystem()
@@ -12,7 +14,7 @@ namespace KFU
 		vector_.resize(n);
 	}
 
-	LinearSystem::LinearSystem(const Matrix<Complex>& m, const Vector<Complex>& v)
+	LinearSystem::LinearSystem(const Matrix<double>& m, const Vector<double>& v)
 	{
 		matrix_ = m;
 		vector_ = v;
@@ -40,18 +42,18 @@ namespace KFU
 		vector_.swap(i, j);
 	}
 
-	Vector<Complex> LinearSystem::solve()
+	Vector<double> LinearSystem::solve()
 	{
 		LinearSystem tmp(*this);
-		Vector<Complex> result(variables());
-		Complex coefficient, sum;
+		Vector<double> result(variables());
+		double coefficient, sum;
 		int max_row;
 		for (int i = 0; i < tmp.equations() - 1; i++)
 		{
 			max_row = i;
 			for (int j = i + 1; j < tmp.equations(); j++)
 			{
-				if (matrix_[j][i].module() > tmp.matrix_[max_row][i].module())
+				if (fabs(matrix_[j][i]) > fabs(tmp.matrix_[max_row][i]))
 					max_row = j;
 			}
 			tmp.swap_lines(i, max_row);
@@ -70,6 +72,21 @@ namespace KFU
 			result[i] = (tmp.vector_[i] - sum) / tmp.matrix_[i][i];
 		}
 		return result;
+	}
+
+	Vector<double> LinearSystem::solve2(double eps)
+	{
+		const int size = variables();
+		Vector<double> next(size), current(size), r(size);
+		double tau;
+		do
+		{
+			current = next;
+			r = matrix_ * current - vector_;
+			tau = ((matrix_ * r) * r) / (matrix_ * r).sqr();
+			next = current - r * tau;
+		} while (r.norm() > eps);
+		return next;
 	}
 
 	std::ostream& operator<<(std::ostream& out, LinearSystem& sys)

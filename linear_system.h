@@ -13,7 +13,7 @@ namespace KFU
 		public:
 			LinearSystem();
 			LinearSystem(int, int);
-			LinearSystem(const Matrix<Complex>&, const Vector<Complex>&);
+			LinearSystem(const Matrix<double>&, const Vector<double>&);
 			LinearSystem(const LinearSystem&);
 
 			int equations() const;
@@ -21,10 +21,11 @@ namespace KFU
 
 			void swap_lines(int, int);
 
-			Vector<Complex> solve();
+			Vector<double> solve();
+			Vector<double> solve2(double = 1e-5);
 		private:
-			Vector<Complex> vector_;
-			Matrix<Complex> matrix_;
+			Vector<double> vector_;
+			Matrix<double> matrix_;
 			friend std::ostream& operator<<(std::ostream&, LinearSystem&);
 			friend std::istream& operator>>(std::istream&, LinearSystem&);
 	};

@@ -14,3 +14,7 @@ main
 
 # template and backup files
 *.tmp
+
+# i/o files
+*.in
+*.out
