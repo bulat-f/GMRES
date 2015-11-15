@@ -45,6 +45,7 @@ namespace KFU
 			Vector& operator=(const Vector&);
 			Vector& operator+(const Vector&);
 			Vector& operator-(const Vector&);
+			type operator*(const Vector&);
 			Vector& operator+=(const Vector&);
 			Vector& operator-=(const Vector&);
 			Vector& operator*(type);
@@ -138,9 +139,7 @@ namespace KFU
 	{
 		Vector<type> *result = new Vector<type>(size());
 		for (int i = 0; i < size(); i++)
-		{
 			(*result)[i] = (*this)[i] + other[i];
-		}
 		return *result;
 	}
 
@@ -149,19 +148,24 @@ namespace KFU
 	{
 		Vector<type> *result = new Vector<type>(size());
 		for (int i = 0; i < size(); i++)
-		{
 			(*result)[i] = (*this)[i] - other[i];
-		}
 		return *result;
+	}
+
+	template <class type>
+	type Vector<type>::operator*(const Vector& other)
+	{
+		type result(0);
+		for (int i = 0; i < size(); i++)
+			result += (*this)[i] * other[i];
+		return result;
 	}
 
 	template <class type>
 	Vector<type>& Vector<type>::operator+=(const Vector& other)
 	{
 		for (int i = 0; i < size(); i++)
-		{
 			(*this)[i] += other[i];
-		}
 		return *this;
 	}
 
@@ -169,9 +173,7 @@ namespace KFU
 	Vector<type>& Vector<type>::operator-=(const Vector& other)
 	{
 		for (int i = 0; i < size(); i++)
-		{
 			(*this)[i] -= other[i];
-		}
 		return *this;
 	}
 
@@ -180,9 +182,7 @@ namespace KFU
 	{
 		Vector<type> *result = new Vector<type>(size());
 		for (int i = 0; i < size(); i++)
-		{
 			(*result)[i] = (*this)[i] * scalar;
-		}
 		return *result;
 	}
 
@@ -191,9 +191,7 @@ namespace KFU
 	{
 		Vector<type> *result = new Vector<type>(size());
 		for (int i = 0; i < size(); i++)
-		{
 			(*result)[i] = (*this)[i] / scalar;
-		}
 		return *result;
 	}
 

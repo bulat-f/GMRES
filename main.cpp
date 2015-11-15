@@ -10,9 +10,10 @@ using namespace std;
 int main()
 {
 	ifstream in("input");
-	KFU::Matrix<Complex> M(3, 3);
-	KFU::Vector<Complex> v(3);
-	in >> M >> v;
-	cout << M * v;
+	KFU::Matrix<double> M(3, 3);
+	KFU::Vector<double> v1(3);
+	KFU::Vector<double> v2(3);
+	in >> v1 >> v2;
+	cout << v1 * v2 << endl;
 	return 0;
 }
